@@ -1,0 +1,2 @@
+PLus de détail sur diagramme de classe : 
+https://laurent-audibert.developpez.com/Cours-UML/?page=diagramme-classes
