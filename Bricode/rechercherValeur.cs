@@ -5,7 +5,7 @@ namespace Bricode
     {
         public static bool RechercheDansTableauOrdonne(int a, int[] tableau)
         {
-            int index = 0;
+            int index;
             index = (int)tableau.Length / 2;
             Console.WriteLine("Taille du tableau {0} index {1} valeur {2} recherchée {3}", tableau.Length, index, tableau[index], a);
             if (tableau[index] == a)
