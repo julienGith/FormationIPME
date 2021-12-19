@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace DemoCode.Factory
 {
-    internal class Violon
+    public class Violon : Instrument
     {
+        public override void Jouer() { Console.WriteLine("son de violon"); }
     }
 }

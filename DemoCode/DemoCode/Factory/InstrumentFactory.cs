@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace DemoCode.Factory
 {
-    public class Piano : Instrument
+    public abstract class InstrumentFactory
     {
-        public override void Jouer()
-        {
-            Console.WriteLine("son de piano");
-        }
+        public abstract IInstrument CreateInstrument();
+
     }
 }
