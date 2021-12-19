@@ -1,4 +1,4 @@
-namespace Bricode
+namespace DemoCode
 {
     public class Compteur
     {

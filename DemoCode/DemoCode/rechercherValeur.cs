@@ -1,5 +1,5 @@
 using System;
-namespace Bricode
+namespace DemoCode
 {
     public class rechercherValeur
     {
