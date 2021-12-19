@@ -21,6 +21,10 @@ static void Menu()
     var result = System.Console.ReadLine();
     switch (result)
     {
+        case "":
+            Console.WriteLine("Au Revoir !");
+            Environment.Exit(0);
+            break;
         case "1":
             rechercherValeur.RechercheDansTableauOrdonne(12, tableau);
             Menu();
@@ -37,7 +41,7 @@ static void Menu()
         case "4":
             Console.WriteLine($"Choisir un instrument\nViolon : 1\nPiano : 2");
             var instru = Console.ReadLine();
-            TestPatternFactory(instru);
+            TestPatternFactory(instru ?? "");
             //if (!string.IsNullOrEmpty(instru))
             //{
             //    TestPatternFactory(instru);
