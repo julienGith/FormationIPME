@@ -2,18 +2,32 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Garage
 {
     internal class Garage
     {
-        public List<Vehicle> Vehicles { get; set; }
+        public List<Vehicle> Vehicles = new List<Vehicle>();
+        //public List<Vehicle> Vehicles { get { return _vehicles; } set { _vehicles = Vehicles; } }
         internal Vehicle AddVehicle(Vehicle vehicle)
         {
             Vehicles.Add(vehicle);
             return vehicle;
         }
+        internal async Task<bool> SaveListVehicles(List<Vehicle> Vehicles)
+        {
+            string jsonString = JsonSerializer.Serialize(Vehicles);
+            await File.WriteAllTextAsync("ListVehicles.txt", jsonString);
+            return true;
+        }
+        internal async void LoadListVehicles()
+        {
+            string jsonString = File.ReadAllText(@"ListVehicles.txt");
+            Vehicles = JsonSerializer.Deserialize<List<Vehicle>>(jsonString);
+        }
+        // to do voir à l'implémenter
         internal Vehicle UpDateVehicle(Vehicle vehicle)
         {
             return vehicle;

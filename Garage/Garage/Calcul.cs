@@ -12,7 +12,7 @@ namespace Garage
         { 
             var garage = new Garage();
             int refId = 0;
-            if (garage.Vehicles.Count == 0)
+            if (garage.Vehicles == null || garage.Vehicles.Count == 0)
             {
                 return refId = 1;
             }

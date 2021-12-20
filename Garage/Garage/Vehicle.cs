@@ -8,20 +8,18 @@ namespace Garage
 {
     internal class Vehicle
     {
-        private Garage garage;
-        
         public Vehicle(string vehiculeName,string state, string kilometrage,string model, string brand, int refid)
         {
             
             IdVehicule = Calcul.CalculId();
             _VehiculeName = vehiculeName;
-            _State = state;
+            State = state;
             kilometrage.Trim();
             if (!String.IsNullOrEmpty(kilometrage))
             {
                 try
                 {
-                    _Kilometrage = uint.Parse(kilometrage);
+                    Kilometrage = uint.Parse(kilometrage);
 
                 }
                 catch (FormatException e)
@@ -30,16 +28,22 @@ namespace Garage
                     Console.WriteLine(e.GetType()); 
                 }
             }
-            _Model = model;
-            _Brand = brand;            
+            Model = model;
+            Brand = brand;            
         }
 
-        public int IdVehicule { get; private set; }
+        internal int IdVehicule { get; private set; }
         private string _State;
         private string _VehiculeName;
         private string _Model;
         private string _Brand;
         private uint _Kilometrage;
+
+        public string State { get { return _State; } set { _State = value; } }
+        public string VehiculeName { get { return _VehiculeName; } set { _VehiculeName = value; } }
+        public string Model { get { return _Model; } set { _Model = value; } }
+        public string Brand { get { return _Brand; } set { _Brand = value; } }
+        public uint Kilometrage { get { return _Kilometrage; } set { _Kilometrage = value; } }
 
 
     }
