@@ -54,16 +54,18 @@ namespace Garage
         {
             return vehicle;
         }
-        internal string DeleteVehicle(string vehicleId)
+        internal string DeleteVehicle(string vehicleId, Garage garage)
         {
             vehicleId.Trim();
             if (!String.IsNullOrEmpty(vehicleId))
             {
                 uint.TryParse(vehicleId, out uint id);
-                var vehicle = Vehicles.FirstOrDefault(v => v.Id == id);
-                var result = Vehicles.Remove(vehicle);
+                var vehicle = garage.Vehicles.FirstOrDefault(v => v.Id == id);
+                var result = garage.Vehicles.Remove(vehicle);
+
                 if (result== true)
                 {
+                    garage.SaveListVehicles(garage.Vehicles);
                     return "supression réussie";
                 }
                 return "échec de la suppression";

@@ -45,6 +45,21 @@ namespace Garage
                             Console.WriteLine("Indiquer le kilometrage du vehicule");
                             var kilometrage = Console.ReadLine();
                             refId = Calcul.CalculId(garage.Vehicles);
+                            if (IsDigit(etat))
+                            {
+                                switch (etat)
+                                {
+                                    case "1": etat = "bon"; break;
+                                    case "2": etat = "moyen"; break;
+                                    case "3": etat = "mauvais"; break;
+                                    default:
+                                        break;
+                                }
+                            }
+                            if (!IsDigit(etat))
+                            {
+                                Launch();
+                            }
                             if (IsDigit(type))
                             {
                                 if (type == "2")
@@ -52,22 +67,28 @@ namespace Garage
                                     Vehicle vehicle = new TwoWheels(refId, nom, etat, model, marque, kilometrage);
                                     garage.AddVehicle(vehicle);
                                     garage.SaveListVehicles(garage.Vehicles);
-                                    Console.WriteLine(vehicle.ToString());
+                                    Console.WriteLine($"ID : {vehicle.Id} Nom : {vehicle.Name} Modèle : {vehicle.Model} Marque : {vehicle.Brand} Etat : {vehicle.State} Kilometrage : {vehicle.Kilometrage}");
+
                                 }
                                 if (type == "4")
                                 {
                                     Vehicle vehicle = new FourWheels(refId, nom, etat, model, marque, kilometrage);
                                     garage.AddVehicle(vehicle);
                                     garage.SaveListVehicles(garage.Vehicles);
-                                    Console.WriteLine(vehicle.ToString());
+                                    Console.WriteLine($"ID : {vehicle.Id} Nom : {vehicle.Name} Modèle : {vehicle.Model} Marque : {vehicle.Brand} Etat : {vehicle.State} Kilometrage : {vehicle.Kilometrage}");
+
                                 }
+                                Launch();
+                            }
+                            if (!IsDigit(type))
+                            {
                                 Launch();
                             }
                             break;
                         case "3":
                             Console.WriteLine("Indiquer l'id du véhicule à supprimer");
                             var id = Console.ReadLine();
-                            DeleteVehicle(id);
+                            DeleteVehicle(id,garage);
                             break;
                         case "4":
                             Console.WriteLine("Indiquer l'id du véhicule à modifier");
@@ -79,10 +100,8 @@ namespace Garage
                             Environment.Exit(0);
                             break;
                     }
-                    Console.WriteLine($"valeur saisie {choix} est incorrecte réessayer");
-                    Launch();
                 }
-
+                Launch();
             }
 
 
@@ -93,10 +112,11 @@ namespace Garage
             char[] charChoix = choix.ToCharArray();
             if (charChoix.Length > 1)
             {
-                Console.WriteLine($"Choix saisi : {charChoix} est incorrect");
+                var stringChoix = new string(charChoix);
+                Console.WriteLine($"Choix saisi : {stringChoix} est incorrect");
                 return false;
             }
-            if (Char.IsDigit(charChoix[0]))
+            if (Char.IsDigit(charChoix[0]) && charChoix.Length == 1)
             {
                 return true;
             }
@@ -197,14 +217,13 @@ namespace Garage
             throw new NotImplementedException();
         }
 
-        private static void DeleteVehicle(string id)
+        private static void DeleteVehicle(string id,Garage garage)
         {
             id.Trim();
 
             if (!String.IsNullOrEmpty(id))
             {
-                var garage = new Garage();
-                var result = garage.DeleteVehicle(id);
+                var result = garage.DeleteVehicle(id,garage);
                 Console.WriteLine(result);
                 Launch();
             }
