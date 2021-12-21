@@ -8,7 +8,7 @@ namespace Garage
 {
     internal class TwoWheels : Vehicle
     {
-        public TwoWheels(int id, string name, string state, string model, string brand, string kilometrage) : base(id, name, state, model, brand, kilometrage)
+        public TwoWheels(int id, string name, Const.EtatVehicle state, string model, string brand, uint kilometrage) : base(id, name, state, model, brand, kilometrage)
         {
         }
     }
