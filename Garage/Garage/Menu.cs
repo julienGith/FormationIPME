@@ -13,76 +13,94 @@ namespace Garage
         {
             var garage = new Garage();
             int refId = 0;
+            
+            garage.LoadListVehicles(garage);
             Console.WriteLine("Choir l'action :\nLister 1\nAjouter 2\nSupprimer 3\nModifier 4\nSortir 5");
             var choix = Console.ReadLine();
             choix.Trim();
-            if (!String.IsNullOrEmpty(choix))
+            IsDigit(choix);
+            if (IsDigit(choix))
             {
-                switch (choix)
+                if (!String.IsNullOrEmpty(choix))
                 {
-                    case "1":
-                        if (garage.Vehicles != null || garage.Vehicles.Count>0)
-                        {
-                            foreach (var vehicle in garage.Vehicles)
-                            {
-                                Console.WriteLine($"ID : {vehicle.IdVehicule} Nom : {vehicle.VehiculeName}");
-
-                            }
+                    switch (choix)
+                    {
+                        case "1":
+                            garage.ShowListVehicles(garage);
                             Launch();
-                        }
-                        Console.WriteLine("Garage vide");
-                        Launch();
-                        break;
-                    case "2":
-                        Console.WriteLine("Indiquer les infos du vehicule");
-                        Console.WriteLine("Indiquer le nom du vehicule");
-                        var nom = Console.ReadLine();
-                        Console.WriteLine("Indiquer le nombre de roues du vehicule");
-                        var type = Console.ReadLine();
-                        Console.WriteLine($"Indiquer l'état du vehicule :" +
-                            $"\n1{Const.EtatVehicle.bon}\n2{Const.EtatVehicle.moyen}\n{(int)Const.EtatVehicle.mauvais}{Const.EtatVehicle.mauvais} ");
-                        var etat = Console.ReadLine();
-                        Console.WriteLine("Indiquer la marque du vehicule");
-                        var marque = Console.ReadLine();
-                        Console.WriteLine("Indiquer le modèle du vehicule");
-                        var model = Console.ReadLine();
-                        Console.WriteLine("Indiquer le kilometrage du vehicule");
-                        var kilometrage = Console.ReadLine();
-                        refId = Calcul.CalculId();
-                        if (type == "2")
-                        {
-                            Vehicle vehicle = new TwoWheels(nom, etat, kilometrage, model, marque,refId);
-                            garage.AddVehicle(vehicle);
-                            Console.WriteLine(garage.Vehicles.Last().ToString());
-                        }
-                        if (type == "4")
-                        {
-                            Vehicle vehicle = new FourWheels(nom, etat, kilometrage, model, marque, refId);
-                            garage.AddVehicle(vehicle);
-                            Console.WriteLine(garage.Vehicles.Last().ToString());
-                        }
-                        Launch();
-                        break;
-                    case "3":
-                        Console.WriteLine("Indiquer l'id du véhicule à supprimer");
-                        var id = Console.ReadLine();
-                        DeleteVehicle(id);
-                        break;
-                    case "4":
-                        Console.WriteLine("Indiquer l'id du véhicule à modifier");
-                        var idUp = Console.ReadLine();
-                        UpdateVehicle(idUp);
-                        Launch();
-                        break;
-                    case "5":
-                        Environment.Exit(0);
-                        break;
+                            break;
+                        case "2":
+                            Console.WriteLine("Indiquer les infos du vehicule");
+                            Console.WriteLine("Indiquer le nom du vehicule");
+                            var nom = Console.ReadLine();
+                            Console.WriteLine("Indiquer le nombre de roues du vehicule");
+                            var type = Console.ReadLine();
+                            Console.WriteLine($"Indiquer l'état du vehicule :" +
+                                $"\n1{Const.EtatVehicle.bon}\n2{Const.EtatVehicle.moyen}\n{(int)Const.EtatVehicle.mauvais}{Const.EtatVehicle.mauvais} ");
+                            var etat = Console.ReadLine();
+                            Console.WriteLine("Indiquer la marque du vehicule");
+                            var marque = Console.ReadLine();
+                            Console.WriteLine("Indiquer le modèle du vehicule");
+                            var model = Console.ReadLine();
+                            Console.WriteLine("Indiquer le kilometrage du vehicule");
+                            var kilometrage = Console.ReadLine();
+                            refId = Calcul.CalculId(garage.Vehicles);
+                            if (IsDigit(type))
+                            {
+                                if (type == "2")
+                                {
+                                    Vehicle vehicle = new TwoWheels(refId, nom, etat, model, marque, kilometrage);
+                                    garage.AddVehicle(vehicle);
+                                    garage.SaveListVehicles(garage.Vehicles);
+                                    Console.WriteLine(vehicle.ToString());
+                                }
+                                if (type == "4")
+                                {
+                                    Vehicle vehicle = new FourWheels(refId, nom, etat, model, marque, kilometrage);
+                                    garage.AddVehicle(vehicle);
+                                    garage.SaveListVehicles(garage.Vehicles);
+                                    Console.WriteLine(vehicle.ToString());
+                                }
+                                Launch();
+                            }
+                            break;
+                        case "3":
+                            Console.WriteLine("Indiquer l'id du véhicule à supprimer");
+                            var id = Console.ReadLine();
+                            DeleteVehicle(id);
+                            break;
+                        case "4":
+                            Console.WriteLine("Indiquer l'id du véhicule à modifier");
+                            var idUp = Console.ReadLine();
+                            UpdateVehicle(idUp);
+                            Launch();
+                            break;
+                        case "5":
+                            Environment.Exit(0);
+                            break;
+                    }
+                    Console.WriteLine($"valeur saisie {choix} est incorrecte réessayer");
+                    Launch();
                 }
-                Console.WriteLine($"valeur saisie {choix} est incorrecte réessayer");
-                Launch();
+
             }
-            
-            
+
+
+        }
+
+        private static bool IsDigit(string? choix)
+        {
+            char[] charChoix = choix.ToCharArray();
+            if (charChoix.Length > 1)
+            {
+                Console.WriteLine($"Choix saisi : {charChoix} est incorrect");
+                return false;
+            }
+            if (Char.IsDigit(charChoix[0]))
+            {
+                return true;
+            }
+            return true;
         }
 
         private static void UpdateVehicle(string idUp)
@@ -92,7 +110,7 @@ namespace Garage
             {
                 int.TryParse(idUp, out int idUpInt);
                 var garage = new Garage();
-                var vehicle = garage.Vehicles.FirstOrDefault(c=> c.IdVehicule == idUpInt);
+                var vehicle = garage.Vehicles.FirstOrDefault(c=> c.Id == idUpInt);
                 if (vehicle == null)
                 {
                     Console.WriteLine("Véhicule non trouvé");
@@ -105,11 +123,11 @@ namespace Garage
                 {
                     switch (choix)
                     {
-                        case "1": Console.WriteLine($"Ancien nom : {vehicle.VehiculeName} Saisir le nouveau nom :");
+                        case "1": Console.WriteLine($"Ancien nom : {vehicle.Name} Saisir le nouveau nom :");
                             var nouveauNom = Console.ReadLine().Trim();
                             if (!String.IsNullOrEmpty(nouveauNom))
                             {
-                                garage.Vehicles.FirstOrDefault(c => c.IdVehicule == idUpInt).VehiculeName = nouveauNom;
+                                garage.Vehicles.FirstOrDefault(c => c.Id == idUpInt).Name = nouveauNom;
                             }
                             break;
                         case "2":
@@ -122,17 +140,17 @@ namespace Garage
                                 switch (nouvelEtat)
                                 {
                                     case "1":
-                                        garage.Vehicles.FirstOrDefault(c => c.IdVehicule == idUpInt).State = Const.EtatVehicle.bon.ToString();
+                                        garage.Vehicles.FirstOrDefault(c => c.Id == idUpInt).State = Const.EtatVehicle.bon.ToString();
                                         Console.WriteLine("Modification de l'état du vehicule effectuée.");
                                         Launch();
                                         break;
                                     case "2":
-                                        garage.Vehicles.FirstOrDefault(c => c.IdVehicule == idUpInt).State = Const.EtatVehicle.moyen.ToString();
+                                        garage.Vehicles.FirstOrDefault(c => c.Id == idUpInt).State = Const.EtatVehicle.moyen.ToString();
                                         Console.WriteLine("Modification de l'état du vehicule effectuée.");
                                         Launch();
                                         break;
                                     case "3":
-                                        garage.Vehicles.FirstOrDefault(c => c.IdVehicule == idUpInt).State = Const.EtatVehicle.mauvais.ToString();
+                                        garage.Vehicles.FirstOrDefault(c => c.Id == idUpInt).State = Const.EtatVehicle.mauvais.ToString();
                                         Console.WriteLine("Modification de l'état du vehicule effectuée.");
                                         Launch();
                                         break;
@@ -146,7 +164,7 @@ namespace Garage
                             var nouveauModel = Console.ReadLine().Trim();
                             if (!String.IsNullOrEmpty(nouveauModel))
                             {
-                                garage.Vehicles.FirstOrDefault(c => c.IdVehicule == idUpInt).Model = nouveauModel;
+                                garage.Vehicles.FirstOrDefault(c => c.Id == idUpInt).Model = nouveauModel;
                             }
                             break;
                         case "4":
@@ -154,7 +172,7 @@ namespace Garage
                             var nouvelleMarque = Console.ReadLine().Trim();
                             if (!String.IsNullOrEmpty(nouvelleMarque))
                             {
-                                garage.Vehicles.FirstOrDefault(c => c.IdVehicule == idUpInt).Brand = nouvelleMarque;
+                                garage.Vehicles.FirstOrDefault(c => c.Id == idUpInt).Brand = nouvelleMarque;
                             }
                             break;
                         case "5":
@@ -163,7 +181,7 @@ namespace Garage
                             if (!String.IsNullOrEmpty(nouveauKilometrage))
                             {
                                 uint.TryParse(nouveauKilometrage, out uint newKm);
-                                garage.Vehicles.FirstOrDefault(c => c.IdVehicule == idUpInt).Kilometrage = newKm;
+                                garage.Vehicles.FirstOrDefault(c => c.Id == idUpInt).Kilometrage = newKm;
                             }
                             break;
                         case "6": Launch();

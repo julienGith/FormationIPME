@@ -8,16 +8,15 @@ namespace Garage
 {
     internal abstract class Calcul
     {
-        public static int CalculId()
+        public static int CalculId( List<Vehicle> vehicles)
         { 
-            var garage = new Garage();
             int refId = 0;
-            if (garage.Vehicles == null || garage.Vehicles.Count == 0)
+            if (vehicles == null || vehicles.Count == 0)
             {
                 return refId = 1;
             }
-            var vehicle = garage.Vehicles.Last();
-            refId = vehicle.IdVehicule;
+            var vehicle = vehicles.Last();
+            refId = vehicle.Id;
             return refId++;
         }
     }
