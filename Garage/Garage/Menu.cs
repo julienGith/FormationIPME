@@ -37,27 +37,27 @@ namespace Garage
                             Console.WriteLine("Indiquer le nombre de roues du vehicule");
                             var type = Console.ReadLine();
                             Console.WriteLine($"Indiquer l'état du vehicule :" +
-                                $"\n1{Const.EtatVehicle.bon}\n2{Const.EtatVehicle.moyen}\n{(int)Const.EtatVehicle.mauvais}{Const.EtatVehicle.mauvais} ");
+                                $"\n{Const.EtatVehicle.bon} 1\n{Const.EtatVehicle.moyen} 2\n{Const.EtatVehicle.mauvais} 3");
                             var etat = Console.ReadLine();
                             Console.WriteLine("Indiquer la marque du vehicule");
                             var marque = Console.ReadLine();
                             Console.WriteLine("Indiquer le modèle du vehicule");
                             var model = Console.ReadLine();
                             Console.WriteLine("Indiquer le kilometrage du vehicule");
-                            var kilometrage = Console.ReadLine();
-                            kilometrage.Trim();
+                            var kilometrage = Console.ReadLine().Trim();
+                            IsKilometrageValid(kilometrage);
                             if (!String.IsNullOrEmpty(kilometrage))
                             {
                                 var result = uint.TryParse(kilometrage,out uint kilometrageUint);
-                                if (!result)
+
+                                while (!result)
                                 {
                                     Console.WriteLine($"Saisie du kilometrage incorrecte : {kilometrage}");
-                                    Launch();
+                                    Console.WriteLine("Indiquer le kilometrage du vehicule");
+                                    kilometrage = Console.ReadLine();
+
                                 }
-                                if (result)
-                                {
-                                    km = kilometrageUint;
-                                }
+                                km = kilometrageUint;
 
                             }
                             refId = Calcul.CalculId(garage.Vehicles);
@@ -125,6 +125,11 @@ namespace Garage
 
         }
 
+        private static bool IsKilometrageValid(string kilometrage)
+        {
+            throw new NotImplementedException();
+        }
+
         private static bool IsDigit(string? choix)
         {
             char[] charChoix = choix.ToCharArray();
@@ -165,6 +170,7 @@ namespace Garage
                             if (!String.IsNullOrEmpty(nouveauNom))
                             {
                                 garage.Vehicles.FirstOrDefault(c => c.Id == idUpInt).Name = nouveauNom;
+                                garage.SaveListVehicles(garage.Vehicles);
                             }
                             break;
                         case "2":

@@ -10,7 +10,6 @@ namespace Garage
     internal class Garage
     {
         public List<Vehicle> Vehicles = new List<Vehicle>();
-        //public List<Vehicle> Vehicles { get { return _vehicles; } set { _vehicles = Vehicles; } }
         internal void ShowListVehicles(Garage garage)
         {
             if (garage.Vehicles != null || garage.Vehicles.Count > 0)
