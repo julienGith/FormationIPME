@@ -5,11 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Garage
 {
     internal class Garage
     {
         public List<Vehicle> Vehicles = new List<Vehicle>();
+        //Comptage des vehicules selon leur type PB : j'arrive pas à choper le type de la classe fille de vehicle...
         internal bool IsThereAnyRoomLeftInGarage(Garage garage)
         {
             uint nbTwoWheels = 0;
@@ -21,20 +23,29 @@ namespace Garage
 
             if (garage.Vehicles.Count>0)
             {
-                if (garage.Vehicles.Count == 5)
+                if (garage.Vehicles.Count > 5)
                 {
                     return false;
                 }
                 foreach (var vehicle in garage.Vehicles)
                 {
-                    if (vehicle.GetType() == typeof(TwoWheels))
+                    if (vehicle.Type == 2)
                     {
                         nbTwoWheels++;
+
                     }
-                    if (vehicle.GetType() == typeof(FourWheels))
+                    if (vehicle.Type == 4)
                     {
                         nbFourWheels++;
-                    }
+                    }  
+                    //if (vehicle.GetType() == typeof(TwoWheels))
+                    //{
+                    //    nbTwoWheels++;
+                    //}
+                    //if (vehicle.GetType() == typeof(FourWheels))
+                    //{
+                    //    nbFourWheels++;
+                    //}
                 }
                 if (nbFourWheels<2)
                 {
@@ -59,11 +70,16 @@ namespace Garage
             }
 
         }
-        internal async Task<Vehicle> AddVehicle(Vehicle vehicle)
+        internal Vehicle AddVehicle(Vehicle vehicle, Garage garage)
         {
-            string jsonString = File.ReadAllText(@"ListVehicles.txt");
-            Vehicles = JsonConvert.DeserializeObject<List<Vehicle>>(jsonString);
-            Vehicles.Add(vehicle);
+            using (FileStream fs = File.OpenRead(@"ListVehicles.txt"))
+            {
+                string jsonString = File.ReadAllText(@"ListVehicles.txt");
+                fs.Close();
+                garage.Vehicles = JsonConvert.DeserializeObject<List<Vehicle>>(jsonString);
+                garage.Vehicles.Add(vehicle);
+            }
+
             return vehicle;
         }
         internal async Task<bool> SaveListVehicles(List<Vehicle> Vehicles)
@@ -78,17 +94,22 @@ namespace Garage
             {
                 using (FileStream fs = File.Create(@"ListVehicles.txt"))
                 {
-
+                    fs.Close();
                 }
             }
-            if (File.Exists(@"ListVehicles.txt"))
+            else
             {
-                string jsonString = File.ReadAllText(@"ListVehicles.txt");
-                if (!String.IsNullOrEmpty(jsonString))
+                using (FileStream fs = File.OpenRead(@"ListVehicles.txt"))
                 {
-                    garage.Vehicles = JsonConvert.DeserializeObject<List<Vehicle>>(jsonString);
+                    string jsonString = File.ReadAllText(@"ListVehicles.txt");
+                    fs.Close();
+                    if (!String.IsNullOrEmpty(jsonString))
+                    {
+                        garage.Vehicles = JsonConvert.DeserializeObject<List<Vehicle>>(jsonString);
+                    }
+                    else { garage.SaveListVehicles(Vehicles); }//pas sur que ça soit utile à revoir
                 }
-                else { garage.SaveListVehicles(Vehicles); }//pas sur que ça soit utile à revoir
+
             }
 
         }

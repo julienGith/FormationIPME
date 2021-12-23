@@ -94,16 +94,16 @@ namespace Garage
                             
                                 if (nbWheels == 2)
                                 {
-                                    Vehicle vehicle = new TwoWheels(refId, nom, state, model, marque, km);
-                                    garage.AddVehicle(vehicle);
+                                    Vehicle vehicle = new TwoWheels(refId, nom, state, model, marque, km,2);
+                                    garage.AddVehicle(vehicle,garage);
                                     garage.SaveListVehicles(garage.Vehicles);
                                     Console.WriteLine($"ID : {vehicle.Id} Nom : {vehicle.Name} Modèle : {vehicle.Model} Marque : {vehicle.Brand} Etat : {vehicle.State} Kilometrage : {vehicle.Kilometrage}");
 
                                 }
                                 if (nbWheels == 4)
                                 {
-                                    Vehicle vehicle = new FourWheels(refId, nom, state, model, marque, km);
-                                    garage.AddVehicle(vehicle);
+                                    Vehicle vehicle = new FourWheels(refId, nom, state, model, marque, km,4);
+                                    garage.AddVehicle(vehicle,garage);
                                     garage.SaveListVehicles(garage.Vehicles);
                                     Console.WriteLine($"ID : {vehicle.Id} Nom : {vehicle.Name} Modèle : {vehicle.Model} Marque : {vehicle.Brand} Etat : {vehicle.State} Kilometrage : {vehicle.Kilometrage}");
 
