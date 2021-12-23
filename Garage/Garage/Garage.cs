@@ -74,12 +74,23 @@ namespace Garage
         }
         internal void LoadListVehicles(Garage garage)
         {
-            string jsonString = File.ReadAllText(@"ListVehicles.txt");
-            if (!String.IsNullOrEmpty(jsonString))
+            if (!File.Exists(@"ListVehicles.txt"))
             {
-                garage.Vehicles = JsonConvert.DeserializeObject<List<Vehicle>>(jsonString);
+                using (FileStream fs = File.Create(@"ListVehicles.txt"))
+                {
+
+                }
             }
-            else { garage.SaveListVehicles(Vehicles); }
+            if (File.Exists(@"ListVehicles.txt"))
+            {
+                string jsonString = File.ReadAllText(@"ListVehicles.txt");
+                if (!String.IsNullOrEmpty(jsonString))
+                {
+                    garage.Vehicles = JsonConvert.DeserializeObject<List<Vehicle>>(jsonString);
+                }
+                else { garage.SaveListVehicles(Vehicles); }//pas sur que ça soit utile à revoir
+            }
+
         }
         // to do voir à l'implémenter
         internal Vehicle UpDateVehicle(Vehicle vehicle)
