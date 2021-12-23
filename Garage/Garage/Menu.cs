@@ -32,52 +32,66 @@ namespace Garage
                             break;
                         case "2":
                             Console.WriteLine("Indiquer les infos du vehicule");
-                            Console.WriteLine("Indiquer le nom du vehicule");
-                            var nom = Console.ReadLine();
                             Console.WriteLine("Indiquer le nombre de roues du vehicule");
-                            var type = Console.ReadLine();
+                            var type = Console.ReadLine().Trim();
+                            var nbWheels = IsTypeValid(type);
+                            if (!garage.IsThereAnyRoomLeftInGarage(garage))
+                            {
+                                Console.WriteLine("Plus de place dans le garage.");
+                                Launch();
+                            }
+                            Console.WriteLine("Indiquer le nom du vehicule");
+                            var nom = Console.ReadLine().Trim();
+                            while (String.IsNullOrEmpty(nom))
+                            {
+                                Console.WriteLine($"Saisie du nom incorrecte : {nom}");
+                                Console.WriteLine("Indiquer le nom du véhicule");
+                                nom = Console.ReadLine().Trim();
+                            }
                             Console.WriteLine($"Indiquer l'état du vehicule :" +
                                 $"\n{Const.EtatVehicle.bon} 1\n{Const.EtatVehicle.moyen} 2\n{Const.EtatVehicle.mauvais} 3");
                             var etat = Console.ReadLine();
+                            var result = IsDigit(etat);
+                            while (!result)
+                            {
+                                Console.WriteLine($"Saisie de l'état incorrecte : {etat}");
+                                Console.WriteLine($"Indiquer l'état du vehicule :" +
+                                $"\n{Const.EtatVehicle.bon} 1\n{Const.EtatVehicle.moyen} 2\n{Const.EtatVehicle.mauvais} 3");
+                                etat = Console.ReadLine();
+                                result = IsDigit(etat);
+                            }
+                            switch (IsEtatValid(etat))
+                            {
+
+                                case 1: state = Const.EtatVehicle.bon; break;
+                                case 2: state = Const.EtatVehicle.moyen; break;
+                                case 3: state = Const.EtatVehicle.mauvais; break;
+                                default:
+                                    break;
+                            }
                             Console.WriteLine("Indiquer la marque du vehicule");
-                            var marque = Console.ReadLine();
+                            var marque = Console.ReadLine().Trim();
+                            while (String.IsNullOrEmpty(marque))
+                            {
+                                Console.WriteLine($"Saisie de la marque incorrecte : {marque}");
+                                Console.WriteLine("Indiquer la marque du vehicule");
+                                marque = Console.ReadLine().Trim();
+
+                            }
                             Console.WriteLine("Indiquer le modèle du vehicule");
-                            var model = Console.ReadLine();
+                            var model = Console.ReadLine().Trim();
+                            while (String.IsNullOrEmpty(model))
+                            {
+                                Console.WriteLine($"Saisie du modèle incorrecte : {model}");
+                                Console.WriteLine("Indiquer la marque du vehicule");
+                                model = Console.ReadLine().Trim();
+
+                            }
                             Console.WriteLine("Indiquer le kilometrage du vehicule");
                             var kilometrage = Console.ReadLine().Trim();
-                            IsKilometrageValid(kilometrage);
-                            if (!String.IsNullOrEmpty(kilometrage))
-                            {
-                                var result = uint.TryParse(kilometrage,out uint kilometrageUint);
-
-                                while (!result)
-                                {
-                                    Console.WriteLine($"Saisie du kilometrage incorrecte : {kilometrage}");
-                                    Console.WriteLine("Indiquer le kilometrage du vehicule");
-                                    kilometrage = Console.ReadLine();
-
-                                }
-                                km = kilometrageUint;
-
-                            }
+                            km = IsKilometrageValid(kilometrage);
                             refId = Calcul.CalculId(garage.Vehicles);
-                            if (IsDigit(etat))
-                            {
-                                
-                                switch (etat)
-                                {
-                                    
-                                    case "1": state = Const.EtatVehicle.bon; break;
-                                    case "2": state = Const.EtatVehicle.moyen; break;
-                                    case "3": state = Const.EtatVehicle.mauvais; break;
-                                    default:
-                                        break;
-                                }
-                            }
-                            if (!IsDigit(etat))
-                            {
-                                Launch();
-                            }
+                            
                             if (IsDigit(type))
                             {
                                 if (type == "2")
@@ -125,9 +139,45 @@ namespace Garage
 
         }
 
-        private static bool IsKilometrageValid(string kilometrage)
+        private static uint IsEtatValid(string? etat)
         {
-            throw new NotImplementedException();
+            var result = uint.TryParse(etat, out uint choixEtat);
+            while (!result || String.IsNullOrEmpty(etat))
+            {
+                Console.WriteLine($"Saisie de l'état incorrecte : {etat}");
+                Console.WriteLine("Indiquer l'état du vehicule"
+                    +$"\n{Const.EtatVehicle.bon} 1\n{Const.EtatVehicle.moyen} 2\n{Const.EtatVehicle.mauvais} 3");
+                etat = Console.ReadLine().Trim();
+                IsEtatValid(etat);
+            }
+            return choixEtat;
+        }
+
+        private static uint IsTypeValid(string type)
+        {
+            var result = uint.TryParse(type, out uint nbWheels);
+            while (nbWheels != 2 || nbWheels != 4 || String.IsNullOrEmpty(type))
+            {
+                Console.WriteLine($"Saisie incorrecte : {nbWheels}, Le type est soit 2 ou 4");
+                Console.WriteLine("Indiquer le nombre de roues du vehicule");
+                type = Console.ReadLine().Trim();
+                IsTypeValid(type);
+            }
+            return nbWheels;
+        }
+
+        private static uint IsKilometrageValid(string kilometrage)
+        {
+            var result = uint.TryParse(kilometrage, out uint kilometrageUint);
+            while (!result || String.IsNullOrEmpty(kilometrage))
+            {
+                Console.WriteLine($"Saisie du kilometrage incorrecte : {kilometrage}");
+                Console.WriteLine("Indiquer le kilometrage du vehicule");
+                kilometrage = Console.ReadLine().Trim();
+                IsKilometrageValid(kilometrage);
+            }
+            return kilometrageUint;
+
         }
 
         private static bool IsDigit(string? choix)

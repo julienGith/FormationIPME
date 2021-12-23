@@ -10,6 +10,39 @@ namespace Garage
     internal class Garage
     {
         public List<Vehicle> Vehicles = new List<Vehicle>();
+        internal bool IsThereAnyRoomLeftInGarage(Garage garage)
+        {
+            uint nbTwoWheels = 0;
+            uint nbFourWheels = 0;
+            if (garage.Vehicles.Count==0)
+            {
+                return true;
+            }
+
+            if (garage.Vehicles.Count>0)
+            {
+                if (garage.Vehicles.Count == 5)
+                {
+                    return false;
+                }
+                foreach (var vehicle in garage.Vehicles)
+                {
+                    if (vehicle.GetType() == typeof(TwoWheels))
+                    {
+                        nbTwoWheels++;
+                    }
+                    if (vehicle.GetType() == typeof(FourWheels))
+                    {
+                        nbFourWheels++;
+                    }
+                }
+                if (nbFourWheels<2)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         internal void ShowListVehicles(Garage garage)
         {
             if (garage.Vehicles != null || garage.Vehicles.Count > 0)
