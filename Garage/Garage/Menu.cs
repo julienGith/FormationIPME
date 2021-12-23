@@ -92,9 +92,7 @@ namespace Garage
                             km = IsKilometrageValid(kilometrage);
                             refId = Calcul.CalculId(garage.Vehicles);
                             
-                            if (IsDigit(type))
-                            {
-                                if (type == "2")
+                                if (nbWheels == 2)
                                 {
                                     Vehicle vehicle = new TwoWheels(refId, nom, state, model, marque, km);
                                     garage.AddVehicle(vehicle);
@@ -102,7 +100,7 @@ namespace Garage
                                     Console.WriteLine($"ID : {vehicle.Id} Nom : {vehicle.Name} Modèle : {vehicle.Model} Marque : {vehicle.Brand} Etat : {vehicle.State} Kilometrage : {vehicle.Kilometrage}");
 
                                 }
-                                if (type == "4")
+                                if (nbWheels == 4)
                                 {
                                     Vehicle vehicle = new FourWheels(refId, nom, state, model, marque, km);
                                     garage.AddVehicle(vehicle);
@@ -111,11 +109,6 @@ namespace Garage
 
                                 }
                                 Launch();
-                            }
-                            if (!IsDigit(type))
-                            {
-                                Launch();
-                            }
                             break;
                         case "3":
                             Console.WriteLine("Indiquer l'id du véhicule à supprimer");
@@ -135,8 +128,6 @@ namespace Garage
                 }
                 Launch();
             }
-
-
         }
 
         private static uint IsEtatValid(string? etat)
@@ -156,7 +147,7 @@ namespace Garage
         private static uint IsTypeValid(string type)
         {
             var result = uint.TryParse(type, out uint nbWheels);
-            while (nbWheels != 2 || nbWheels != 4 || String.IsNullOrEmpty(type))
+            while (String.IsNullOrEmpty(type) && nbWheels != 2 | nbWheels != 4 )
             {
                 Console.WriteLine($"Saisie incorrecte : {nbWheels}, Le type est soit 2 ou 4");
                 Console.WriteLine("Indiquer le nombre de roues du vehicule");
@@ -195,7 +186,7 @@ namespace Garage
             }
             return true;
         }
-        //In progress >> validation
+        //To do >>>>>> validation
         private static void UpdateVehicle(string idUp, Garage garage)
         {
             idUp.Trim();
@@ -287,7 +278,6 @@ namespace Garage
                 Console.WriteLine(result);
                 Launch();
             }
-            throw new NotImplementedException();
         }
 
         private static void DeleteVehicle(string id,Garage garage)

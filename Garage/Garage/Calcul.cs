@@ -16,8 +16,8 @@ namespace Garage
                 return refId = 1;
             }
             var vehicle = vehicles.Last();
-            refId = vehicle.Id;
-            return refId++;
+            refId = vehicle.Id + 1;
+            return refId;
         }
     }
 }
