@@ -195,7 +195,7 @@ namespace Garage
             }
             return true;
         }
-
+        //In progress >> validation
         private static void UpdateVehicle(string idUp, Garage garage)
         {
             idUp.Trim();
@@ -208,7 +208,7 @@ namespace Garage
                     Console.WriteLine("Véhicule non trouvé");
                 }
                 Console.WriteLine("Quelle propriété du véhicule souhaitez vous modifier : " +
-                    "\n1 Modifier le nom \n2Modifier le l'état \n3Modifier le modèle \n4Modifier la marque \n5Modifier le kiliométrage \n6 retour au menu");
+                    "\nModifier le nom 1\nModifier le l'état 2\nModifier le modèle 3\nModifier la marque 4\nModifier le kiliométrage 5\n retour au menu 6");
                 var choix = Console.ReadLine();
                 choix.Trim();
                 if (!String.IsNullOrEmpty(choix))
@@ -283,7 +283,7 @@ namespace Garage
                             break;
                     }
                 }
-                    var result = garage.UpDateVehicle(vehicle);
+                var result = garage.SaveListVehicles;
                 Console.WriteLine(result);
                 Launch();
             }
