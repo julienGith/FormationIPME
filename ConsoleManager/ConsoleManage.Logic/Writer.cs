@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleManager.Class
+namespace ConsoleManage.Logic
 {
-    internal class Menu
+    internal class Writer : Manager
     {
     }
 }

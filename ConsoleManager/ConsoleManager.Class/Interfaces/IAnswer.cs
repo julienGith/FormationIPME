@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleManager.Class
+namespace ConsoleManager.Data.Interfaces
 {
-    internal class Answer
+    internal interface IAnswer
     {
     }
 }
