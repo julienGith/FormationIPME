@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleManager", "ConsoleMa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleManager.Data", "ConsoleManager.Class\ConsoleManager.Data.csproj", "{8B3515B9-5F6F-46AA-8760-6C4977554D8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleManage.Logic", "ConsoleManage.Logic\ConsoleManage.Logic.csproj", "{46891BFF-3D7B-4EE7-A463-C6EADBF70190}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleManager.Logic", "ConsoleManage.Logic\ConsoleManager.Logic.csproj", "{46891BFF-3D7B-4EE7-A463-C6EADBF70190}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

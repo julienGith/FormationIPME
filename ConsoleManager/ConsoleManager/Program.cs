@@ -2,7 +2,9 @@
 
 using ConsoleManage.Manager;
 using ConsoleManager.Data.Models;
+using ConsoleManager.MenuManager;
 
 Console.WriteLine("Hello, World!");
 Manager Manager = new Manager();
-Manager.ShowMenus();
+MenuManager menuManager = new MenuManager();
+menuManager.StartMenuManager();

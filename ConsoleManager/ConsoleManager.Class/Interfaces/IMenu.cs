@@ -11,7 +11,7 @@ namespace ConsoleManager.Data.Interfaces
     {
         Menu CreateMenu(string title, string greetingMessage, List<Question>? questions);
         Menu UpdateMenu(Menu menu);
-        Menu DeleteMenuById(int id);
+        bool DeleteMenuById(int id);
         List<Menu> GetAllMenus();
         Menu GetMenuById(uint id);
         Menu GetMenuByName(string title);

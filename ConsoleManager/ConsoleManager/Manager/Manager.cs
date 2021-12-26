@@ -35,7 +35,17 @@ namespace ConsoleManage.Manager
         }
         public virtual void ShowMenus()
         {
-            var menus = _menuLogic.GetMenus();
+            var menus = _menuLogic.GetAllMenus();
+            if (menus.Count==0)
+            {
+                Console.WriteLine("Aucun menu trouvé.");
+                return;
+            }
+            Console.WriteLine("Liste des menus :");
+            foreach (var item in menus)
+            {
+                Console.WriteLine($"Id menu : {item.Id} // Titre : {item.Title}");
+            }
         }
         public virtual void WriteQuestion(Menu menu)
         {
