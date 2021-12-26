@@ -30,5 +30,11 @@ namespace Garage
             Modifier
 
         }
+        internal enum ExpectedAnswerType
+        {
+            String,
+            Char,
+            Int,
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace Garage
 {
     internal abstract class Calcul
     {
-        public static int CalculId( List<Vehicle> vehicles)
+        internal static int CalculId( List<Vehicle> vehicles)
         { 
             int refId = 0;
             if (vehicles == null || vehicles.Count == 0)
