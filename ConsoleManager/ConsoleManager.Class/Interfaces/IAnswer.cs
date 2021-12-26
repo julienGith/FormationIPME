@@ -8,5 +8,6 @@ namespace ConsoleManager.Data.Interfaces
 {
     internal interface IAnswer
     {
+
     }
 }

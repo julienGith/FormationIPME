@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleManager.Data.Interfaces
 {
-    internal interface IMenu
+    public interface IMenu
     {
         Menu CreateMenu(string title, string greetingMessage, List<Question>? questions);
         Menu UpdateMenu(Menu menu);

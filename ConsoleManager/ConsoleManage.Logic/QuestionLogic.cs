@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleManager.Data.Functions
+namespace ConsoleManager.Logic
 {
-    public class QuestionFunctions : IQuestion
+    public class QuestionLogic : IQuestion
     {
         public Question CreateQuestion(Question question)
         {

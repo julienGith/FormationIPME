@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleManage.Logic
+namespace ConsoleManager.Logic
 {
-    internal class Writer : Manager
+    public class AnswerLogic
     {
     }
 }

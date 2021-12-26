@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleManager.Data.Interfaces
 {
-    internal interface IQuestion
+    public interface IQuestion
     {
         Question GetQuestionById(int questionId);
         Question CreateQuestion(Question question);
