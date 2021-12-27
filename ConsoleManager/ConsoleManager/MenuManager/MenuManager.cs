@@ -112,7 +112,7 @@ namespace ConsoleManager.MenuManager
             int i = 0;
             Console.WriteLine("CREATION DE QUESTION");
             Console.WriteLine("Veuillez choisir le type de question :");
-            foreach (var type in Enum.GetValues(typeof(Const.QuestionType)))
+            foreach (var type in Enum.GetValues(typeof(QuestionType)))
             {
                 i++;
                 builder.Append($"{i} "+type.ToString()+"\n");
@@ -136,12 +136,12 @@ namespace ConsoleManager.MenuManager
             StringBuilder builder = new StringBuilder();
             int i = 0;
 
-            while (String.IsNullOrEmpty(questionTypeChoice) || String.IsNullOrWhiteSpace(questionTypeChoice) || chars.Length > 1 || Char.IsDigit(chars[0]) || chars[0] > Enum.GetValues(typeof(Const.QuestionType)).Length)
+            while (String.IsNullOrEmpty(questionTypeChoice) || String.IsNullOrWhiteSpace(questionTypeChoice) || chars.Length > 1 || Char.IsDigit(chars[0]) || chars[0] > Enum.GetValues(typeof(QuestionType)).Length)
             {
                 Console.WriteLine($"Type de question incorrect : {questionTypeChoice}");
                 ShowAllMenus();
                 Console.WriteLine("Veuillez choisir le type de question :");
-                foreach (var type in Enum.GetValues(typeof(Const.QuestionType)))
+                foreach (var type in Enum.GetValues(typeof(QuestionType)))
                 {
                     i++;
                     builder.Append($"{i} " + type.ToString() + "\n");
@@ -164,7 +164,7 @@ namespace ConsoleManager.MenuManager
             var possibleChoices = new List<string>();
             possibleChoices.Add("Oui");
             possibleChoices.Add("Non");
-            var question = new Question(questionString, 2, possibleChoices, menu);
+            var question = new Question(questionString, 2, possibleChoices, menu,QuestionType.OuiNon);
             _questionLogic.CreateQuestion(question);
             return question;
         }
@@ -182,7 +182,7 @@ namespace ConsoleManager.MenuManager
             var possibleChoice = CreatePossibleChoice();
             possibleChoices.Add(possibleChoice);
             possibleChoices = CreateAnotherPossibleChoice(possibleChoices);
-            var question = new Question(questionString, (uint)possibleChoices.Count, possibleChoices, menu);
+            var question = new Question(questionString, (uint)possibleChoices.Count, possibleChoices, menu, QuestionType.ChoixMultiple);
             _questionLogic.CreateQuestion(question);
             return question;
 
@@ -229,7 +229,7 @@ namespace ConsoleManager.MenuManager
                 Console.WriteLine("Veuillez saisir la question : ");
                 questionString = Console.ReadLine();
             }
-            var question = new Question(questionString, 0,null, menu);
+            var question = new Question(questionString, 0,null, menu, QuestionType.ReponseLibre);
             _questionLogic.CreateQuestion(question);
             return question;
 
