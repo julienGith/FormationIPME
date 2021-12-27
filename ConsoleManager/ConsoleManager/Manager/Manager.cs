@@ -24,9 +24,18 @@ namespace ConsoleManage.Manager
         {
             throw new NotImplementedException();
         }
-        public virtual Answer ReadUserEntry(string userEntry, Question question, Answer answer)
+        public virtual void ReadUserEntry(Question question)
         {
-            throw new NotImplementedException();
+            var userEntry = Console.ReadLine();
+            while (String.IsNullOrEmpty(userEntry) || String.IsNullOrWhiteSpace(userEntry))
+            {
+                Console.WriteLine($"Saisie incorrecte : {userEntry}");
+                Console.WriteLine("Veuillez resaisir :");
+                userEntry = Console.ReadLine();
+            }
+            uint.TryParse(userEntry, out uint choice);
+            Answer answer = new Answer(userEntry, choice, question);
+            IsAnswerValid(question, answer);
         }
         //Writer
         public virtual void ShowMenu(Menu menu)
@@ -47,9 +56,9 @@ namespace ConsoleManage.Manager
                 Console.WriteLine($"Id menu : {item.Id} // Titre : {item.Title}");
             }
         }
-        public virtual void WriteQuestion(Menu menu)
+        public virtual void WriteQuestion(Question question)
         {
-            throw new NotImplementedException();
+            Console.WriteLine(question.Text);
         }
     }
 }

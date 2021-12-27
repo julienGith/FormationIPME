@@ -40,6 +40,17 @@ namespace ConsoleManager.MenuManager
                     break;
             }
         }
+        private string GetChoiceValid(string? choice, int choices)
+        {
+
+            while (String.IsNullOrEmpty(choice) || String.IsNullOrWhiteSpace(choice) || choice.Length > 1 || !Char.IsDigit(choice[0]) || int.Parse(choice) > choices || int.Parse(choice) == 0)
+            {
+                Console.WriteLine($"Choix saisi incorrect : {choice}");
+                Console.WriteLine("Choisir une action :\n1 Voir tous les menus\n2 Créer un menu\n3 Ajouter des Questions à un menu\n4 Sortir\nSaisissez le numéro de l'action :");
+                choice = Console.ReadLine();
+            }
+            return choice;
+        }
 
         private void ShowAllMenus()
         {
@@ -54,8 +65,6 @@ namespace ConsoleManager.MenuManager
                 Console.WriteLine($"Menu id : {menu.Id} Titre : {menu.Title}");
             }
         }
-
-
         internal void CreateMenu()
         {
             Console.WriteLine("CREATION D'UN MENU");
@@ -67,9 +76,38 @@ namespace ConsoleManager.MenuManager
             greetingMessage = GetGreetingMessageEntryValid(greetingMessage);
             var menu = _menuLogic.CreateMenu(title, greetingMessage,null);
         }
-        internal Question CreateQuestion(uint idMenu)
+        private string GetTitleEntryValid(string? title)
         {
-            var menu = _menuLogic.GetMenuById(idMenu);
+            while (String.IsNullOrEmpty(title) || String.IsNullOrWhiteSpace(title))
+            {
+                Console.WriteLine("Saisie du titre incorrecte");
+                Console.WriteLine("Veuillez indiquer le titre du menu");
+                title = Console.ReadLine();
+            }
+            return title;
+        }
+        private string GetGreetingMessageEntryValid(string? greetingMessage)
+        {
+            while (String.IsNullOrEmpty(greetingMessage) || String.IsNullOrWhiteSpace(greetingMessage))
+            {
+                Console.WriteLine("Saisie du message d'accueil incorrecte");
+                Console.WriteLine("Veuillez indiquer le message d'accueil du menu");
+                greetingMessage = Console.ReadLine();
+            }
+            return greetingMessage;
+        }
+        internal void AddQuestionToMenu()
+        {
+            Console.WriteLine("AJOUT DE QUESTION A UN MENU");
+            ShowAllMenus();
+            Console.WriteLine("Veuillez indiquer l'id du menu pour le choisir :");
+            var idMenu = Console.ReadLine();
+            uint id = GetIdMenuValid(idMenu);
+            var menu = _menuLogic.GetMenuById(id);
+            CreateQuestion(menu);
+        }
+        internal void CreateQuestion(Menu menu)
+        {
             StringBuilder builder = new StringBuilder();
             int i = 0;
             Console.WriteLine("CREATION DE QUESTION");
@@ -85,107 +123,13 @@ namespace ConsoleManager.MenuManager
             questionTypeChoice = GetquestionTypeChoiceValid(questionTypeChoice);
             switch (questionTypeChoice)
             {
-                case "1": return _questionLogic.CreateQuestion(CreateYesNoQuestion());
-                case "2": return _questionLogic.CreateQuestion(CreateMultipleChoicesQuestion());
-                case "3": return _questionLogic.CreateQuestion(CreateFreeAnswerQuestion());
+                case "1": menu.Questions.Add(_questionLogic.CreateQuestion(CreateYesNoQuestion(menu))); break;
+                case "2": menu.Questions.Add(_questionLogic.CreateQuestion(CreateMultipleChoicesQuestion(menu))); break;
+                case "3": menu.Questions.Add(_questionLogic.CreateQuestion(CreateFreeAnswerQuestion(menu))); break;
             }
-            return null;
-        }
-
-        internal Question CreateMultipleChoicesQuestion()
-        {
-            var possibleChoices = new List<string>();
-            Console.WriteLine("Veuillez saisir la question : ");
-            var questionString = Console.ReadLine();
-            while (String.IsNullOrEmpty(questionString) || String.IsNullOrWhiteSpace(questionString))
-            {
-                Console.WriteLine("Saisie incorrecte");
-                Console.WriteLine("Veuillez saisir la question : ");
-                questionString = Console.ReadLine();
-            }
-            var possibleChoice = CreatePossibleChoice();
-            possibleChoices.Add(possibleChoice);
-            possibleChoices = CreateAnotherPossibleChoice(possibleChoices);
-            var question = new Question(questionString, (uint)possibleChoices.Count, possibleChoices);
-            return question;
 
         }
 
-        private List<string> CreateAnotherPossibleChoice(List<string> possibleChoices)
-        {
-            Console.WriteLine("Souhaitez vous ajouter un choix possible supplémentaire ?");
-            Console.WriteLine("1 Oui\n2 non");
-            var choix = Console.ReadLine();
-            choix = GetChoiceValid(choix,3);
-            switch (choix)
-            {
-                case "1":
-                    possibleChoices.Add(CreatePossibleChoice());
-                    CreateAnotherPossibleChoice(possibleChoices);
-                    break;
-                case "2":
-                    return possibleChoices;
-            }
-            return possibleChoices;
-
-        }
-
-        private string CreatePossibleChoice()
-        {
-            Console.WriteLine("AJOUT D'UN CHOIX");
-            Console.WriteLine("Veuillez saisir le choix : ");
-            var possibleChoice = Console.ReadLine();
-            while (String.IsNullOrEmpty(possibleChoice) || String.IsNullOrWhiteSpace(possibleChoice))
-            {
-                Console.WriteLine("Saisie incorrecte");
-                Console.WriteLine("Veuillez saisir le choix : ");
-                possibleChoice = Console.ReadLine();
-            }
-            Console.WriteLine($"Choix : {possibleChoice} ajouté.");
-            return possibleChoice;
-        }
-
-        internal Question CreateFreeAnswerQuestion()
-        {
-            Console.WriteLine("Veuillez saisir la question : ");
-            var questionString = Console.ReadLine();
-            while (String.IsNullOrEmpty(questionString) || String.IsNullOrWhiteSpace(questionString))
-            {
-                Console.WriteLine("Saisie incorrecte");
-                Console.WriteLine("Veuillez saisir la question : ");
-                questionString = Console.ReadLine();
-            }
-            var question = new Question(questionString, 0,null);
-            return question;
-
-        }
-
-        internal Question CreateYesNoQuestion()
-        {
-            Console.WriteLine("Veuillez saisir la question : ");
-            var questionString = Console.ReadLine();
-            while (String.IsNullOrEmpty(questionString) || String.IsNullOrWhiteSpace(questionString))
-            {
-                Console.WriteLine("Saisie incorrecte");
-                Console.WriteLine("Veuillez saisir la question : ");
-                questionString = Console.ReadLine();
-            }
-            var possibleChoices = new List<string>();
-            possibleChoices.Add("Oui");
-            possibleChoices.Add("Non");
-            var question = new Question(questionString, 2, possibleChoices);
-            return question;
-        }
-
-        internal void AddQuestionToMenu()
-        {
-            Console.WriteLine("AJOUT DE QUESTION A UN MENU");
-            ShowAllMenus();
-            Console.WriteLine("Veuillez indiquer l'id du menu pour le choisir :");
-            var idMenu = Console.ReadLine();
-            uint id = GetIdMenuValid(idMenu);
-            CreateQuestion(id);
-        }
         private string GetquestionTypeChoiceValid(string? questionTypeChoice)
         {
             char[] chars = questionTypeChoice.ToCharArray();
@@ -207,6 +151,91 @@ namespace ConsoleManager.MenuManager
             }
             return questionTypeChoice;
         }
+        internal Question CreateYesNoQuestion(Menu menu)
+        {
+            Console.WriteLine("Veuillez saisir la question : ");
+            var questionString = Console.ReadLine();
+            while (String.IsNullOrEmpty(questionString) || String.IsNullOrWhiteSpace(questionString))
+            {
+                Console.WriteLine("Saisie incorrecte");
+                Console.WriteLine("Veuillez saisir la question : ");
+                questionString = Console.ReadLine();
+            }
+            var possibleChoices = new List<string>();
+            possibleChoices.Add("Oui");
+            possibleChoices.Add("Non");
+            var question = new Question(questionString, 2, possibleChoices, menu);
+            _questionLogic.CreateQuestion(question);
+            return question;
+        }
+        internal Question CreateMultipleChoicesQuestion(Menu menu)
+        {
+            var possibleChoices = new List<string>();
+            Console.WriteLine("Veuillez saisir la question : ");
+            var questionString = Console.ReadLine();
+            while (String.IsNullOrEmpty(questionString) || String.IsNullOrWhiteSpace(questionString))
+            {
+                Console.WriteLine("Saisie incorrecte");
+                Console.WriteLine("Veuillez saisir la question : ");
+                questionString = Console.ReadLine();
+            }
+            var possibleChoice = CreatePossibleChoice();
+            possibleChoices.Add(possibleChoice);
+            possibleChoices = CreateAnotherPossibleChoice(possibleChoices);
+            var question = new Question(questionString, (uint)possibleChoices.Count, possibleChoices, menu);
+            _questionLogic.CreateQuestion(question);
+            return question;
+
+        }
+        private string CreatePossibleChoice()
+        {
+            Console.WriteLine("AJOUT D'UN CHOIX");
+            Console.WriteLine("Veuillez saisir le choix : ");
+            var possibleChoice = Console.ReadLine();
+            while (String.IsNullOrEmpty(possibleChoice) || String.IsNullOrWhiteSpace(possibleChoice))
+            {
+                Console.WriteLine("Saisie incorrecte");
+                Console.WriteLine("Veuillez saisir le choix : ");
+                possibleChoice = Console.ReadLine();
+            }
+            Console.WriteLine($"Choix : {possibleChoice} ajouté.");
+            return possibleChoice;
+        }
+        private List<string> CreateAnotherPossibleChoice(List<string> possibleChoices)
+        {
+            Console.WriteLine("Souhaitez vous ajouter un choix possible supplémentaire ?");
+            Console.WriteLine("1 Oui\n2 non");
+            var choix = Console.ReadLine();
+            choix = GetChoiceValid(choix,3);
+            switch (choix)
+            {
+                case "1":
+                    possibleChoices.Add(CreatePossibleChoice());
+                    CreateAnotherPossibleChoice(possibleChoices);
+                    break;
+                case "2":
+                    return possibleChoices;
+            }
+            return possibleChoices;
+
+        }
+        internal Question CreateFreeAnswerQuestion(Menu menu)
+        {
+            Console.WriteLine("Veuillez saisir la question : ");
+            var questionString = Console.ReadLine();
+            while (String.IsNullOrEmpty(questionString) || String.IsNullOrWhiteSpace(questionString))
+            {
+                Console.WriteLine("Saisie incorrecte");
+                Console.WriteLine("Veuillez saisir la question : ");
+                questionString = Console.ReadLine();
+            }
+            var question = new Question(questionString, 0,null, menu);
+            _questionLogic.CreateQuestion(question);
+            return question;
+
+        }
+
+
         private uint GetIdMenuValid(string? idMenu)
         {
             char[] chars = idMenu.ToCharArray();
@@ -220,6 +249,7 @@ namespace ConsoleManager.MenuManager
             }
             return uint.Parse(idMenu);
         }
+        //todo tester
         private bool IsAllCharsDigit(char[] chars)
         {
             foreach (var item in chars)
@@ -227,37 +257,6 @@ namespace ConsoleManager.MenuManager
                 return !Char.IsDigit(item);
             }
             return true;
-        }
-        private string GetGreetingMessageEntryValid(string? greetingMessage)
-        {
-            while (String.IsNullOrEmpty(greetingMessage) || String.IsNullOrWhiteSpace(greetingMessage))
-            {
-                Console.WriteLine("Saisie du message d'accueil incorrecte");
-                Console.WriteLine("Veuillez indiquer le message d'accueil du menu");
-                greetingMessage = Console.ReadLine();
-            }
-            return greetingMessage;
-        }
-        private string GetTitleEntryValid(string? title)
-        {
-            while (String.IsNullOrEmpty(title) || String.IsNullOrWhiteSpace(title))
-            {
-                Console.WriteLine("Saisie du titre incorrecte");
-                Console.WriteLine("Veuillez indiquer le titre du menu");
-                title = Console.ReadLine();
-            }
-            return title;
-        }
-        private string GetChoiceValid(string? choice, int choices)
-        {
-
-            while (String.IsNullOrEmpty(choice) || String.IsNullOrWhiteSpace(choice) || choice.Length>1 || !Char.IsDigit(choice[0]) || int.Parse(choice) > choices || int.Parse(choice) == 0)
-            {
-                Console.WriteLine($"Choix saisi incorrect : {choice}");
-                Console.WriteLine("Choisir une action :\n1 Voir tous les menus\n2 Créer un menu\nSaisissez le numéro de l'action :");
-                choice = Console.ReadLine();
-            }
-            return choice;
         }
 
     }

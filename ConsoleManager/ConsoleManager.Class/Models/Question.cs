@@ -2,13 +2,20 @@
 {
     public class Question
     {
-        public Question(string text, uint possibleChoices, List<string>? PossibleResponse)
+        public Question(string text, uint possibleChoices, List<string>? PossibleResponse, Menu? menu)
         {
             _text = text;
             _possibleChoices = possibleChoices;
             _possibleResponse = PossibleResponse ?? new List<string>();
             _answers = new List<Answer>();
         }
+        private Menu _menu;
+        public Menu Menu
+        {
+            get { return _menu; }
+            set { _menu = value; }
+        }
+
         private List<Answer> _answers;
         private int _id { get; init; }
         private string _text;

@@ -1,5 +1,6 @@
 ﻿using ConsoleManager.Data.Interfaces;
 using ConsoleManager.Data.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,21 @@ namespace ConsoleManager.Data.Functions
     {
         public Question CreateQuestion(Question question)
         {
-            throw new NotImplementedException();
+            List<Question> quests = new List<Question>();
+            if (!File.Exists(@"question.txt"))
+            {
+                using (FileStream fs = File.Create(@"question.txt"))
+                {
+                    quests.Add(question);
+
+                    var jsonString = JsonConvert.SerializeObject(quests);
+                    File.WriteAllText(@"question.txt", jsonString);
+                    fs.Close();
+                }
+                return question;
+            }
+
+            return question;
         }
 
         public Question DeleteQuestion(Question question)

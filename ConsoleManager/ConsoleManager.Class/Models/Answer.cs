@@ -8,10 +8,10 @@ namespace ConsoleManager.Data.Models
 {
     public class Answer
     {
-        public Answer(string text, uint choice, Question question)
+        public Answer(string text, uint? choice, Question question)
         {
             _text = text;
-            _choice = choice;
+            _choice = choice??0;
             _question = question;
         }
         private int _id { get; init; }
