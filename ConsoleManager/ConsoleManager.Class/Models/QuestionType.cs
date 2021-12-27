@@ -10,6 +10,7 @@ namespace ConsoleManager.Data.Models
     {
         OuiNon,
         ChoixMultiple,
-        ReponseLibre
+        ReponseLibre,
+        QuestionMere
     }
 }

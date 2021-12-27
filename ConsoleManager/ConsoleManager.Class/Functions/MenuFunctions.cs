@@ -15,20 +15,27 @@ namespace ConsoleManager.Data.Functions
         {
             Menu menu = new Menu(title, greetingMessage, questions);
             List<Menu> menus = new List<Menu>();
-            if (!File.Exists(@"menu.txt"))
+            if (!File.Exists(@"menus.txt"))
             {
-                using (FileStream fs = File.Create(@"menu.txt"))
+                using (FileStream fs = File.Create(@"menus.txt"))
                 {
                     menus.Add(menu);
-
                     var jsonString = JsonConvert.SerializeObject(menus);
-                    File.WriteAllText(@"menu.txt", jsonString);
+                    File.WriteAllText(@"menus.txt", jsonString);
                     fs.Close();
                 }
-                menus = GetAllMenus();
-                return menu;
             }
-            
+            else
+            {
+                using (FileStream fs = File.OpenRead(@"menus.txt"))
+                {
+                    menus.Add(menu);
+                    var jsonString = JsonConvert.SerializeObject(menus);
+                    File.WriteAllText(@"menus.txt", jsonString);
+                    fs.Close();
+                }
+            }
+
             return menu;
         }
 
@@ -41,10 +48,10 @@ namespace ConsoleManager.Data.Functions
             {
                 menus.Remove(menu);
             }
-            using (FileStream fs = File.OpenRead(@"menu.txt"))
+            using (FileStream fs = File.OpenRead(@"menus.txt"))
             {
                 var jsonString = JsonConvert.SerializeObject(menus);
-                File.WriteAllText(@"menu.txt", jsonString);
+                File.WriteAllText(@"menus.txt", jsonString);
                 fs.Close();
             }
             return false;
@@ -53,9 +60,9 @@ namespace ConsoleManager.Data.Functions
         public List<Menu> GetAllMenus()
         {
             List<Menu> menus = new List<Menu>();
-            using (FileStream fs = File.OpenRead(@"menu.txt"))
+            using (FileStream fs = File.OpenRead(@"menus.txt"))
             {
-                menus = JsonConvert.DeserializeObject<List<Menu>>(@"menu.txt");
+                menus = JsonConvert.DeserializeObject<List<Menu>>(@"menus.txt");
                 fs.Close();
             }
             return menus;

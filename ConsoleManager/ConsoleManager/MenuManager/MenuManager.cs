@@ -51,7 +51,6 @@ namespace ConsoleManager.MenuManager
             }
             return choice;
         }
-
         private void ShowAllMenus()
         {
             var menus = _menuLogic.GetAllMenus();
@@ -127,7 +126,88 @@ namespace ConsoleManager.MenuManager
                 case "2": menu.Questions.Add(_questionLogic.CreateQuestion(CreateMultipleChoicesQuestion(menu))); break;
                 case "3": menu.Questions.Add(_questionLogic.CreateQuestion(CreateFreeAnswerQuestion(menu))); break;
             }
+            _menuLogic.CreateMenu(menu);
+            SubMenuQuestion(menu);
 
+        }
+
+        private void SubMenuQuestion(Menu menu)
+        {
+            var question = menu.Questions.Last();
+            Console.WriteLine($"Question : {question.Text} crée.");
+            Console.WriteLine("1 Ajouter une sous question\n2 Créer une nouvelle question\n3 Terminer");
+            var choice = Console.ReadLine();
+            choice = GetChoiceValid(choice, 3);
+            switch (choice)
+            {
+                case "1":
+                    question = GetMotherQuestion(menu);
+                    CreateMotherQuestion(menu, question);
+                    break;
+                case "2": CreateQuestion(menu); break;
+                case "3": Environment.Exit(0); break;
+                default:
+                    break;
+            }
+        }
+
+        private void CreateMotherQuestion(Menu menu, Question question)
+        {
+            StringBuilder builder = new StringBuilder();
+            int i = 0;
+            Console.WriteLine("CREATION DE QUESTION MERE");
+            Console.WriteLine("Veuillez choisir le type de question :");
+            foreach (var type in Enum.GetValues(typeof(QuestionType)))
+            {
+                i++;
+                builder.Append($"{i} " + type.ToString() + "\n");
+            }
+            string questionTypeString = builder.ToString();
+            Console.WriteLine(questionTypeString);
+            var questionTypeChoice = Console.ReadLine();
+            questionTypeChoice = GetquestionTypeChoiceValid(questionTypeChoice);
+            switch (questionTypeChoice)
+            {
+                case "1": question.QuestionsFilles.Add(_questionLogic.CreateQuestion(CreateYesNoQuestion(menu))); break;
+                case "2": question.QuestionsFilles.Add(_questionLogic.CreateQuestion(CreateMultipleChoicesQuestion(menu))); break;
+                case "3": question.QuestionsFilles.Add(_questionLogic.CreateQuestion(CreateFreeAnswerQuestion(menu))); break;
+            }
+            _questionLogic.CreateQuestion(question);
+        }
+
+        private Question GetMotherQuestion(Menu menu)
+        {
+            ShowQuestions(menu);
+            Console.WriteLine("Veuillez indiquer l'id de la question mère :");
+            var choice = Console.ReadLine();
+            var idQuestion = GetIdQuestionValid(choice);
+            var question = GetMotherQuestionValide(idQuestion,menu);
+            return question;
+        }
+
+        private Question GetMotherQuestionValide(uint idQuestion,Menu menu)
+        {
+            var question = menu.Questions.FirstOrDefault(q => q.Id == idQuestion);
+
+            while (question == null)
+            {
+                Console.WriteLine($"Id incorrect : {idQuestion} ");
+                ShowQuestions(menu);
+                Console.WriteLine("Veuillez indiquer l'id de la question mère :");
+                var choice = Console.ReadLine();
+                idQuestion = GetIdQuestionValid(choice);
+                question = menu.Questions.FirstOrDefault(q => q.Id == idQuestion);
+
+            }
+            return question;
+        }
+
+        private void ShowQuestions(Menu menu)
+        {
+            foreach (var item in menu.Questions)
+            {
+                Console.WriteLine($"Id : {item.Id} : {item.Text}");
+            }
         }
 
         private string GetquestionTypeChoiceValid(string? questionTypeChoice)
@@ -164,7 +244,7 @@ namespace ConsoleManager.MenuManager
             var possibleChoices = new List<string>();
             possibleChoices.Add("Oui");
             possibleChoices.Add("Non");
-            var question = new Question(questionString, 2, possibleChoices, menu,QuestionType.OuiNon);
+            var question = new Question(questionString, 2, possibleChoices, menu,QuestionType.OuiNon,null);
             _questionLogic.CreateQuestion(question);
             return question;
         }
@@ -182,7 +262,7 @@ namespace ConsoleManager.MenuManager
             var possibleChoice = CreatePossibleChoice();
             possibleChoices.Add(possibleChoice);
             possibleChoices = CreateAnotherPossibleChoice(possibleChoices);
-            var question = new Question(questionString, (uint)possibleChoices.Count, possibleChoices, menu, QuestionType.ChoixMultiple);
+            var question = new Question(questionString, (uint)possibleChoices.Count, possibleChoices, menu, QuestionType.ChoixMultiple,null);
             _questionLogic.CreateQuestion(question);
             return question;
 
@@ -229,13 +309,11 @@ namespace ConsoleManager.MenuManager
                 Console.WriteLine("Veuillez saisir la question : ");
                 questionString = Console.ReadLine();
             }
-            var question = new Question(questionString, 0,null, menu, QuestionType.ReponseLibre);
+            var question = new Question(questionString, 0,null, menu, QuestionType.ReponseLibre,null);
             _questionLogic.CreateQuestion(question);
             return question;
 
         }
-
-
         private uint GetIdMenuValid(string? idMenu)
         {
             char[] chars = idMenu.ToCharArray();
@@ -248,6 +326,19 @@ namespace ConsoleManager.MenuManager
                 chars = idMenu.ToCharArray();
             }
             return uint.Parse(idMenu);
+        }
+        private uint GetIdQuestionValid(string? idQuestion)
+        {
+            char[] chars = idQuestion.ToCharArray();
+            while (String.IsNullOrEmpty(idQuestion) || String.IsNullOrWhiteSpace(idQuestion) || !IsAllCharsDigit(chars))
+            {
+                Console.WriteLine($"Id incorrect : {idQuestion}");
+                ShowAllMenus();
+                Console.WriteLine("Veuillez indiquer l'id de la question mère pour la choisir :");
+                idQuestion = Console.ReadLine();
+                chars = idQuestion.ToCharArray();
+            }
+            return uint.Parse(idQuestion);
         }
         //todo tester
         private bool IsAllCharsDigit(char[] chars)

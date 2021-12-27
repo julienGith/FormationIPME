@@ -9,9 +9,6 @@ namespace ConsoleManage.Manager
 {
     internal class Reader : Manager
     {
-        public override bool IsAnswerValid(Question question, Answer answer)
-        {
-            return true;
-        }
+
     }
 }

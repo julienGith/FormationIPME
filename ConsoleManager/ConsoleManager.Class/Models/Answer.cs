@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ConsoleManager.Data.Models
@@ -19,18 +20,19 @@ namespace ConsoleManager.Data.Models
         private uint _choice;
         private Question _question;
 
+        [JsonPropertyName("question")]
         public Question Question
         {
             get { return _question; }
             set { _question = value; }
         }
-
+        [JsonPropertyName("choice")]
         public uint Choice
         {
             get { return _choice; }
             set { _choice = value; }
         }
-
+        [JsonPropertyName("text")]
         public string Text
         {
             get { return _text; }
