@@ -4,11 +4,11 @@ namespace ConsoleManager.Data.Models
 {
     public class Question
     {
-        public Question(string text, uint possibleChoices, List<string>? PossibleResponse, Menu? menu, QuestionType questionType, List<Question>? QuestionsFilles)
+        public Question(string text, uint possibleChoices, List<string>? PossibleResponses, Menu? menu, QuestionType questionType, List<Question>? QuestionsFilles)
         {
             _text = text;
             _possibleChoices = possibleChoices;
-            _possibleResponse = PossibleResponse ?? new List<string>();
+            _possibleResponses = PossibleResponses ?? new List<string>();
             _questionType = questionType;
             _answers = new List<Answer>();
             _questionsFilles = QuestionsFilles ?? new List<Question>();
@@ -40,18 +40,18 @@ namespace ConsoleManager.Data.Models
         private int _id { get; init; }
         private string _text;
         private uint _possibleChoices;
-        private List<string> _possibleResponse;
+        private List<string> _possibleResponses;
         [JsonPropertyName("answers")]
         public List<Answer> Answers
         {
             get { return _answers; }
             set { _answers = value; }
         }
-        [JsonPropertyName("possibleresponse")]
-        public List<string> PossibleResponse
+        [JsonPropertyName("possibleresponses")]
+        public List<string> PossibleResponses
         {
-            get { return _possibleResponse; }
-            set { _possibleResponse = value; }
+            get { return _possibleResponses; }
+            set { _possibleResponses = value; }
         }
         [JsonPropertyName("text")]
         public string Text

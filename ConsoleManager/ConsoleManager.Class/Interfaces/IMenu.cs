@@ -9,7 +9,7 @@ namespace ConsoleManager.Data.Interfaces
 {
     public interface IMenu
     {
-        Menu CreateMenu(string title, string greetingMessage, List<Question>? questions);
+        Menu CreateMenu(Menu menu);
         Menu UpdateMenu(Menu menu);
         bool DeleteMenuById(int id);
         List<Menu> GetAllMenus();

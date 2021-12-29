@@ -17,9 +17,9 @@ namespace ConsoleManager.Logic
             _menu = new MenuFunctions();
         }
 
-        public Menu CreateMenu(string title, string greetingMessage, List<Question>? questions)
+        public Menu CreateMenu(Menu menu)
         {
-            return _menu.CreateMenu(title, greetingMessage, questions);
+            return _menu.CreateMenu(menu);
         }
         public Menu UpdateMenu(Menu menu)
         {

@@ -10,7 +10,6 @@ namespace ConsoleManage.Manager
     public interface IManager
     {
         //Reader
-        Answer GetAnswerValid(Question question, Answer answer);
         Answer ReadUserEntry(Question question);
         //Writer
         void ShowMenu(uint idMenu);

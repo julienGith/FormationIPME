@@ -5,6 +5,9 @@ using ConsoleManager.Data.Models;
 using ConsoleManager.MenuManager;
 
 Console.WriteLine("Hello, World!");
-Manager Manager = new Manager();
+//IManager reader = new Manager();
+IManager manager;
+manager.ReadUserEntry();
+Manager Writer = new Writer();
 MenuManager menuManager = new MenuManager();
 menuManager.StartMenuManager();

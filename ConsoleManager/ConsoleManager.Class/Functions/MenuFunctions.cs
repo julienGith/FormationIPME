@@ -11,9 +11,8 @@ namespace ConsoleManager.Data.Functions
 {
     public class MenuFunctions : IMenu
     {
-        public Menu CreateMenu(string title, string greetingMessage, List<Question>? questions)
+        public Menu CreateMenu(Menu menu)
         {
-            Menu menu = new Menu(title, greetingMessage, questions);
             List<Menu> menus = new List<Menu>();
             if (!File.Exists(@"menus.txt"))
             {

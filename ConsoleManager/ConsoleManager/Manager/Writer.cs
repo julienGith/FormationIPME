@@ -9,17 +9,34 @@ namespace ConsoleManage.Manager
 {
     internal class Writer : Manager
     {
-        internal void ShowMenu(Menu menu)
+        public override void WriteQuestion(Question question)
         {
-            throw new NotImplementedException();
+            int i = 0;
+            switch (question.QuestionType)
+            {
+                case QuestionType.OuiNon:
+                    Console.WriteLine(question.Text);
+                    foreach (var possibleResponse in question.PossibleResponses)
+                    {
+                        i++;
+                        Console.WriteLine($"{i} : {possibleResponse}");
+                    }
+                    break;
+                case QuestionType.ChoixMultiple:
+                    Console.WriteLine(question.Text);
+                    foreach (var possibleResponse in question.PossibleResponses)
+                    {
+                        i++;
+                        Console.WriteLine($"{i} : {possibleResponse}");
+                    }
+                    break;
+                case QuestionType.ReponseLibre:
+                    Console.WriteLine(question.Text);
+                    break;
+                default:
+                    break;
+            }
         }
-        internal virtual void ShowMenus()
-        {
 
-        }
-        internal void WriteQuestion(Menu menu)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

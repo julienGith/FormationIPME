@@ -20,10 +20,6 @@ namespace ConsoleManager.MenuManager
             _questionLogic = new QuestionLogic();
             _answerLogic = new AnswerLogic();
         }
-        internal void ExecuteMenu()
-        {
-
-        }
         internal void StartMenuManager()
         {
             Console.WriteLine("BIENVENUE DANS LE GESTIONNAIRE DE MENU");
@@ -73,7 +69,8 @@ namespace ConsoleManager.MenuManager
             Console.WriteLine("Veuillez indiquer le message d'accueil du menu");
             var greetingMessage = Console.ReadLine();
             greetingMessage = GetGreetingMessageEntryValid(greetingMessage);
-            var menu = _menuLogic.CreateMenu(title, greetingMessage,null);
+            var menu = new Menu(title,greetingMessage,null);
+            menu = _menuLogic.CreateMenu(menu);
         }
         private string GetTitleEntryValid(string? title)
         {
@@ -130,7 +127,6 @@ namespace ConsoleManager.MenuManager
             SubMenuQuestion(menu);
 
         }
-
         private void SubMenuQuestion(Menu menu)
         {
             var question = menu.Questions.Last();
@@ -150,7 +146,6 @@ namespace ConsoleManager.MenuManager
                     break;
             }
         }
-
         private void CreateMotherQuestion(Menu menu, Question question)
         {
             StringBuilder builder = new StringBuilder();
@@ -174,7 +169,6 @@ namespace ConsoleManager.MenuManager
             }
             _questionLogic.CreateQuestion(question);
         }
-
         private Question GetMotherQuestion(Menu menu)
         {
             ShowQuestions(menu);
@@ -184,7 +178,6 @@ namespace ConsoleManager.MenuManager
             var question = GetMotherQuestionValide(idQuestion,menu);
             return question;
         }
-
         private Question GetMotherQuestionValide(uint idQuestion,Menu menu)
         {
             var question = menu.Questions.FirstOrDefault(q => q.Id == idQuestion);
@@ -201,7 +194,6 @@ namespace ConsoleManager.MenuManager
             }
             return question;
         }
-
         private void ShowQuestions(Menu menu)
         {
             foreach (var item in menu.Questions)
@@ -209,7 +201,6 @@ namespace ConsoleManager.MenuManager
                 Console.WriteLine($"Id : {item.Id} : {item.Text}");
             }
         }
-
         private string GetquestionTypeChoiceValid(string? questionTypeChoice)
         {
             char[] chars = questionTypeChoice.ToCharArray();
@@ -309,7 +300,7 @@ namespace ConsoleManager.MenuManager
                 Console.WriteLine("Veuillez saisir la question : ");
                 questionString = Console.ReadLine();
             }
-            var question = new Question(questionString, 0,null, menu, QuestionType.ReponseLibre,null);
+            var question = new Question(questionString, uint.MaxValue,null, menu, QuestionType.ReponseLibre,null);
             _questionLogic.CreateQuestion(question);
             return question;
 
