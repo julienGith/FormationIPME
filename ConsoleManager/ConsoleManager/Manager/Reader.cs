@@ -9,7 +9,7 @@ namespace ConsoleManage.Manager
 {
     internal class Reader : Manager
     {
-        public override Answer ReadUserEntry(Question question)
+        public Answer ReadUserEntry(Question question)
         {
             var userEntry = Console.ReadLine();
             while (String.IsNullOrEmpty(userEntry) || String.IsNullOrWhiteSpace(userEntry))

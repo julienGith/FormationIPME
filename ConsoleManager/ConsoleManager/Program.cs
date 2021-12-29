@@ -7,7 +7,8 @@ using ConsoleManager.MenuManager;
 Console.WriteLine("Hello, World!");
 //IManager reader = new Manager();
 IManager manager;
-manager.ReadUserEntry();
-Manager Writer = new Writer();
+Manager reader = new Reader();
+Manager writer = new Writer();
+reader.
 MenuManager menuManager = new MenuManager();
 menuManager.StartMenuManager();
