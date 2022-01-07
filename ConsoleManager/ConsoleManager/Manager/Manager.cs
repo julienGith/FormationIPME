@@ -20,14 +20,14 @@ namespace ConsoleManage.Manager
             _questionLogic = new QuestionLogic();
         }
         //Reader
-        public virtual Answer ReadUserEntry(Question question)
+        public Answer ReadUserEntry(Question question)
         {
             var userEntry = Console.ReadLine();
             while (String.IsNullOrEmpty(userEntry) || String.IsNullOrWhiteSpace(userEntry))
             {
                 Console.WriteLine($"Saisie incorrecte : {userEntry}");
                 Console.WriteLine("Veuillez ressaisir :");
-                ReadUserEntry(question);
+                userEntry = Console.ReadLine();
             }
             var result = uint.TryParse(userEntry, out uint choice);
             switch (question.QuestionType)

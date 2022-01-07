@@ -6,9 +6,10 @@ using ConsoleManager.MenuManager;
 
 Console.WriteLine("Hello, World!");
 //IManager reader = new Manager();
-IManager manager;
-Manager reader = new Reader();
-Manager writer = new Writer();
-reader.
-MenuManager menuManager = new MenuManager();
-menuManager.StartMenuManager();
+var manager = new Manager();
+var question = new Question("indiquer film :",0,null,null,QuestionType.ReponseLibre,null);
+manager.WriteQuestion(question);
+var result = manager.ReadUserEntry(question);
+Console.WriteLine(result.Text);
+
+
