@@ -1,0 +1,5 @@
+Structure de donnée
+
+- SET unicité des données
+- ICollection / IList 
+- Dictionnary
