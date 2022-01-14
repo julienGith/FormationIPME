@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleManage.Manager
 {
-    internal class Manager
+    public class Manager
     {
         private QuestionLogic _questionLogic;
         private MenuLogic _menuLogic;
@@ -22,6 +22,7 @@ namespace ConsoleManage.Manager
         //Reader
         public Answer ReadUserEntry(Question question)
         {
+            var correctUserEntry = "";
             var userEntry = Console.ReadLine();
             while (String.IsNullOrEmpty(userEntry) || String.IsNullOrWhiteSpace(userEntry))
             {
@@ -37,16 +38,17 @@ namespace ConsoleManage.Manager
                     while (!result || choice == 0 || choice > 2)
                     {
                         Console.WriteLine($"Saisie incorrecte : {userEntry}");
+                        Console.WriteLine("Veuillez ressaisir :");
                         ReadUserEntry(question);
-
                     }
                     break;
                 case QuestionType.ChoixMultiple:
-                    while (!result || choice == 0 || choice > question.PossibleChoices)
-                    {
-                        Console.WriteLine($"Saisie incorrecte : {userEntry}");
-                        ReadUserEntry(question);
-                    }
+                    userEntry = GetValidUserEntryMultipleChoice(userEntry, question);
+                    choice = uint.Parse(userEntry);
+                    break;
+                case QuestionType.Numerique:
+                    userEntry = GetValidUserEntryNumeric(userEntry);
+                    choice = uint.Parse(userEntry);
                     break;
                 case QuestionType.ReponseLibre:
                     choice = 0;
@@ -58,6 +60,35 @@ namespace ConsoleManage.Manager
             question.Answers.Add(answer);
             return answer;
         }
+
+        private string GetValidUserEntryNumeric(string userEntry)
+        {
+            uint choice = 0;
+            var result = uint.TryParse(userEntry, out choice);
+            while (String.IsNullOrEmpty(userEntry) || String.IsNullOrWhiteSpace(userEntry) || !result || choice == 0 )
+            {
+                Console.WriteLine($"Saisie incorrecte : {userEntry}");
+                Console.WriteLine("Veuillez ressaisir :");
+                userEntry = Console.ReadLine();
+                result = uint.TryParse(userEntry, out choice);
+            }
+            return userEntry;
+        }
+
+        private string GetValidUserEntryMultipleChoice(string userEntry, Question question)
+        {
+            uint choice = 0;
+            var result = uint.TryParse(userEntry, out choice);
+            while (String.IsNullOrEmpty(userEntry) || String.IsNullOrWhiteSpace(userEntry) || !result || choice == 0 || choice > question.PossibleChoices)
+            {
+                Console.WriteLine($"Saisie incorrecte : {userEntry}");
+                Console.WriteLine("Veuillez ressaisir :");
+                userEntry = Console.ReadLine();
+                result = uint.TryParse(userEntry, out choice);
+            }
+            return userEntry;
+        }
+
         //Writer
         public virtual void ShowMenu(uint idMenu)
         {
@@ -70,21 +101,24 @@ namespace ConsoleManage.Manager
             {
                 case QuestionType.OuiNon:
                     Console.WriteLine(question.Text);
-                    foreach (var possibleResponse in question.PossibleResponses)
-                    {
-                        i++;
-                        Console.WriteLine($"{i} : {possibleResponse}");
-                    }
+                    //foreach (var possibleResponse in question.PossibleResponses)
+                    //{
+                    //    i++;
+                    //    Console.WriteLine($"{i} : {possibleResponse}");
+                    //}
                     break;
                 case QuestionType.ChoixMultiple:
                     Console.WriteLine(question.Text);
-                    foreach (var possibleResponse in question.PossibleResponses)
-                    {
-                        i++;
-                        Console.WriteLine($"{i} : {possibleResponse}");
-                    }
+                    //foreach (var possibleResponse in question.PossibleResponses)
+                    //{
+                    //    i++;
+                    //    Console.WriteLine($"{i} : {possibleResponse}");
+                    //}
                     break;
                 case QuestionType.ReponseLibre:
+                    Console.WriteLine(question.Text);
+                    break;
+                case QuestionType.Numerique:
                     Console.WriteLine(question.Text);
                     break;
                 default:
