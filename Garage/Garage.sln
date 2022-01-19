@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Garage", "Garage\Garage.csproj", "{00AB3DB6-5F33-4097-93C1-C28BAF6E2818}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Garage", "Garage\Garage.csproj", "{00AB3DB6-5F33-4097-93C1-C28BAF6E2818}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary1", "ClassLibrary1\ClassLibrary1.csproj", "{8EB43F21-6719-428D-A3CE-18522395918C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventsAppConsole", "EventsAppConsole\EventsAppConsole.csproj", "{CFB55E9B-A2CC-49F5-8028-C7795A7EE466}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{00AB3DB6-5F33-4097-93C1-C28BAF6E2818}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00AB3DB6-5F33-4097-93C1-C28BAF6E2818}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00AB3DB6-5F33-4097-93C1-C28BAF6E2818}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EB43F21-6719-428D-A3CE-18522395918C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EB43F21-6719-428D-A3CE-18522395918C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EB43F21-6719-428D-A3CE-18522395918C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EB43F21-6719-428D-A3CE-18522395918C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFB55E9B-A2CC-49F5-8028-C7795A7EE466}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFB55E9B-A2CC-49F5-8028-C7795A7EE466}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFB55E9B-A2CC-49F5-8028-C7795A7EE466}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFB55E9B-A2CC-49F5-8028-C7795A7EE466}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
