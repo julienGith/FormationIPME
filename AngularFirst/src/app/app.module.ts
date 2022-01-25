@@ -7,8 +7,7 @@ import { YahtzeeComponent } from './yahtzee/yahtzee.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    YahtzeeComponent
+
   ],
   imports: [
     BrowserModule,

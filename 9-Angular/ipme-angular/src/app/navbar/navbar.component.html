@@ -1,0 +1,24 @@
+
+<nav class="navbar navbar-light bg-dark text-white">
+  <div class="container-fluid">
+    <div>
+      <a class="btn btn-primary" routerLink="/" [hidden]="hideButton('/')">
+        Accueil
+      </a>
+      <a class="btn btn-primary" [routerLink]="urlHeroes" [hidden]="hideButton(urlHeroes)">
+        {{ sliceUrl(urlHeroes)|titlecase }}
+      </a>
+      <a class="btn btn-primary" [routerLink]="urlPokemonList" [hidden]="hideButton(urlPokemonList)">
+        {{ sliceUrl(urlPokemonList)|titlecase }}
+      </a>
+      <a class="btn btn-primary" [routerLink]="urlFormUser" [hidden]="hideButton(urlFormUser)">
+        {{ sliceUrl(urlFormUser)|titlecase }}
+      </a>
+      <a class="btn btn-primary" [routerLink]="urlAccount" [hidden]="hideButton(urlAccount)">
+        {{ sliceUrl(urlAccount)|titlecase }}
+      </a>
+    </div>
+    Angular IPME
+  </div>
+</nav>
+
