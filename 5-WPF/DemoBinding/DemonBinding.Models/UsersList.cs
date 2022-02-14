@@ -7,6 +7,19 @@ namespace DemonBinding.Models
 
         private UserModel currentUser;
 
+        private bool isVisible;
+
+        public bool IsVisible
+        {
+            get { return isVisible; }
+            set
+            {
+                isVisible = value;
+                OnNotifyPropertyChanged();
+            }
+        }
+
+
         public UserModel CurrentUser
         {
             get { return currentUser; }

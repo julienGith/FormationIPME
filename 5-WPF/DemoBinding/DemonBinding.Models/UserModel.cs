@@ -15,6 +15,22 @@
                     OnNotifyPropertyChanged();
                 }
             }
-        }       
+        }
+
+        private DateTime birthDate;
+
+        public DateTime BirthDate
+        {
+            get { return birthDate; }
+            set
+            {
+                if (birthDate != value)
+                {
+                    birthDate = value;
+                    OnNotifyPropertyChanged();
+                }
+            }
+        }
+
     }
 }

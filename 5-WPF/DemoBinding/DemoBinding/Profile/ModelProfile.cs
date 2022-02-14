@@ -1,4 +1,4 @@
-﻿using DemoBinding.Entities;
+﻿using DemoBinding.Dtos;
 using DemonBinding.Models;
 
 namespace DemoBinding.Profile
@@ -7,7 +7,7 @@ namespace DemoBinding.Profile
     {
         public ModelProfile()
         {
-            CreateMap<UserEntity, UserModel>().ReverseMap(); 
+            CreateMap<UserModel, UserDto>().ReverseMap(); 
         }
     }
 }

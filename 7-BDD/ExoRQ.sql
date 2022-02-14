@@ -1,27 +1,34 @@
 --1 Retrouver le prénom et l'adresse email du client qui a pour nom de compagnie, 'Bike World'
 Select FirstName,EmailAddress from SalesLT.Customer
 where CompanyName = 'Bike World'
+group by FirstName,EmailAddress
 --2 Retrouver les noms de compagnies qui ont pour ville 'Dallas'
-select CompanyName from SalesLT.Customer join
-SalesLT.Address on CustomerID = CustomerID
+select distinct CompanyName from SalesLT.Customer as C join
+SalesLT.CustomerAddress as ca on ca.CustomerID = C.CustomerID join
+SalesLT.Address as A on A.AddressID = ca.AddressID
 where City='Dallas'
+
 --3 Combien de produits avec un prix > 1000$ ont été vendues
-Select count(SalesLT.SalesOrderDetail.ProductID) from SalesLT.SalesOrderDetail join
+Select Sum(OrderQty) from SalesLT.SalesOrderDetail join
 SalesLT.Product on SalesLT.Product.ProductID= SalesLT.SalesOrderDetail.ProductID
 where UnitPrice>'1000'
+
 --4 Retrouver les companies dont les clients ont commandés pour plus de 10.000$ (en incluant le sous-total, les taxes et les frais de transport)
-Select CompanyName from SalesLT.Customer as C
+Select CompanyName,TotalDue from SalesLT.Customer as C
 inner join SalesLT.SalesOrderHeader as S on S.CustomerID=C.CustomerID
 where TotalDue > 10000
+
 --5 Retrouver le nombre de chaussettes de courses, commandées par la société 'Riding Cycles'
 Select Sum(OrderQty) from SalesLT.SalesOrderDetail as S
 join SalesLT.SalesOrderHeader as SOH on SOH.SalesOrderID = S.SalesOrderID
 join SalesLT.Customer as C on C.CustomerID = SOH.CustomerID
 join SalesLT.Product as P on P.ProductID=S.ProductID where
 P.Name like '%socks%' and C.CompanyName = 'Riding Cycles'
+
 --6 Une « commande d'article unique » est une commande client pour laquelle un seul article est commandé. Affichez le SalesOrderID et le UnitPrice pour chaque commande d'article unique.
 Select SalesOrderID, UnitPrice From SalesLT.SalesOrderDetail 
 where OrderQty=1
+
 --7 Retrouvez le nom du produit et le nom de la compagnie pour les clients ayant commandés le produit 'Racing Socks'
 Select CompanyName from SalesLT.Customer as C 
 join SalesLT.Product as P on Name = 'Racing Socks'
@@ -73,8 +80,12 @@ order by Qty desc
 --14 Retrouvez combien de commandes sont dans les intervals suivants : 0-99, 100-999, 1000-9999, 10000
 
 --15 Retrouvez les trois villes les plus importantes. Affichez la répartition de la catégorie de produits de premier niveau par rapport à chaque ville.
-select A.City,SOH.SubTotal from SalesLT.Address as A
+select top 3 A.City,SOH.SubTotal from SalesLT.Address as A
 join SalesLT.SalesOrderHeader as SOH on SOH.BillToAddressID = A.AddressID
-join SalesLT.SalesOrderDetail as SOD on SOD.SalesOrderDetailID = SOH.SalesOrderID
+--join SalesLT.SalesOrderDetail as SOD on SOD.SalesOrderDetailID = SOH.SalesOrderID
 where SOH.SubTotal > (select avg(SalesLT.SalesOrderHeader.SubTotal)from SalesLT.SalesOrderHeader)
-order by SOH.SubTotal, A.City
+order by SOH.SubTotal, A.City ASC
+
+select SOH.SubTotal from SalesLT.SalesOrderHeader as SOH
+select avg(SalesLT.SalesOrderHeader.SubTotal)as Moyenne from SalesLT.SalesOrderHeader
+select sum(SalesLT.SalesOrderHeader.SubTotal)from SalesLT.SalesOrderHeader

@@ -1,0 +1,62 @@
+﻿<Window x:Class="DemoBinding.DemoVisualState"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DemoBinding"
+        xmlns:utils="clr-namespace:DemoBinding.Utils"
+        mc:Ignorable="d"
+        Title="DemoVisualState" Height="450" Width="800">
+    <Grid x:Name="Grid" utils:StateManager.VisualStateProperty="{Binding RecState}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="StateGroup">
+                <VisualState x:Name="Small">
+                    <Storyboard>
+                        <DoubleAnimation  Storyboard.TargetName="MyRectangle" Storyboard.TargetProperty="Width" From="200" To="100" Duration="0:0:5"/>
+                        <DoubleAnimation  Storyboard.TargetName="MyRectangle" Storyboard.TargetProperty="Height" From="200" To="100" Duration="0:0:5"/>
+                    </Storyboard>
+                </VisualState>
+
+                <VisualState x:Name="Large">
+                    <Storyboard>
+                        <Storyboard>
+                            <DoubleAnimation  Storyboard.TargetName="MyRectangle" Storyboard.TargetProperty="Width" From="100" To="200" Duration="0:0:5"/>
+                            <DoubleAnimation  Storyboard.TargetName="MyRectangle" Storyboard.TargetProperty="Height" From="100" To="200" Duration="0:0:5"/>
+                        </Storyboard>
+                    </Storyboard>
+                </VisualState>
+
+                <VisualState x:Name="Visible">
+                    <Storyboard>
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MyRectangle" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}" />
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </Storyboard>
+                </VisualState>
+
+                <VisualState x:Name="Collapsed">
+                    <Storyboard>
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MyRectangle" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Collapsed}" />
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <StackPanel >
+            <WrapPanel HorizontalAlignment="Center" Margin="10">
+                <Button Content="GoToSmall" Click="OnGoToSmall" Margin="10"></Button>
+                <Button Content="GoToLarge" Click="OnGoToLarge" Margin="10"></Button>
+                <Button Content="GoToVisible" Click="OnGoToVisible"  Margin="10"></Button>
+                <Button Content="GoToCollaspsed" Click="OnGoToCollapsed"  Margin="10"></Button>
+            </WrapPanel>
+            <Rectangle x:Name="MyRectangle" Height="200" Width="200" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Green" >
+            </Rectangle>
+        </StackPanel>
+    </Grid>
+</Window>

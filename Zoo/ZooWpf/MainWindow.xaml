@@ -1,0 +1,40 @@
+﻿<Window x:Class="ZooWpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:User_Controls="clr-namespace:ZooWpf.User_Controls"
+        xmlns:Converters="clr-namespace:ZooWpf.Converters"
+        xmlns:local="clr-namespace:ZooWpf"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800"
+        Loaded="Window_Loaded">
+    <Window.Resources>
+        <Converters:AnimalTypeConverter x:Key="AnimalTypeConverter"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="5*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock FontSize="36" Grid.ColumnSpan="2" HorizontalAlignment="Center">Bienvenue au Zoo !</TextBlock>
+        <ListBox x:Name="LBAnimals" Grid.Row="2" Grid.Column="0" SelectedItem="{Binding CurrentAnimal}" ItemsSource="{Binding Animals}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <WrapPanel>
+                        <TextBlock Text="{Binding Name}"/>
+                        <TextBlock Text="{Binding ., StringFormat='>>>>>>{0}', Converter={StaticResource AnimalTypeConverter}}"/>
+                    </WrapPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <!--<User_Controls:AnimalsListUC Animals="{Binding Animals}" Grid.Row="2" Grid.Column="0" x:Name="UCAnimalList"/>-->
+        <User_Controls:AnimalDetailsUC x:Name="UCAnimalDetails"  CurrentAnimal="{Binding CurrentAnimal}"  Grid.Column="1" Grid.Row="2"/>
+    </Grid>
+</Window>
